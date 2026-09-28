@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+*.sqlite3
+*.sqlite3-*
+.env
+data/
+training/checkpoints/*
+!training/checkpoints/README.md
+*.safetensors
+*.gguf
+*.pth
+*.pt
+*.bin

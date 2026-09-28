@@ -1,0 +1,1 @@
+"""Standalone ECLIPSE agent components."""

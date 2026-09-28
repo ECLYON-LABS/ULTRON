@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eclipse-ai-brain"
+version = "0.3.0"
+description = "Independent checkpoint training, evaluation and agent runtime"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+eclipse-api = "eclipse.api.server:main"
+
+[tool.setuptools.packages.find]
+include = ["eclipse*", "training*", "evals*"]
