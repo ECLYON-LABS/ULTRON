@@ -1,6 +1,6 @@
 """Validate a real local Pluto checkpoint and GPU before starting inference."""
 
-import os
+from eclipse.config import get_env
 import subprocess
 import sys
 from pathlib import Path
@@ -10,9 +10,9 @@ from training.model_registry import read_checkpoint_manifest
 
 
 def main() -> None:
-    path = os.getenv("ECLIPSE_MODEL_PATH", "")
+    path = get_env("PLUTO_MODEL_PATH", "")
     if not path or not Path(path).is_dir():
-        raise SystemExit("Set ECLIPSE_MODEL_PATH to an existing trained checkpoint directory")
+        raise SystemExit("Set PLUTO_MODEL_PATH to an existing trained checkpoint directory")
     try:
         read_checkpoint_manifest(path, verify_files=True)
     except DatasetError as exc:

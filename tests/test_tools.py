@@ -246,7 +246,7 @@ class NetworkToolBoundaryTests(unittest.TestCase):
         client = AllowlistedApiClient(
             {
                 "private": ApiPermission(
-                    "api.example.com", ("/v1",), ("GET",), token_env="ECLIPSE_TEST_API_TOKEN"
+                    "api.example.com", ("/v1",), ("GET",), token_env="PLUTO_TEST_API_TOKEN"
                 )
             }
         )
@@ -311,7 +311,7 @@ class ReadOnlyDatabaseTests(unittest.TestCase):
 
     def test_from_env_fails_clearly_without_database_credentials(self):
         with patch.dict(os.environ, {}, clear=True), self.assertRaisesRegex(
-            RuntimeError, "ECLIPSE_READONLY_DATABASE_URL"
+            RuntimeError, "PLUTO_READONLY_DATABASE_URL"
         ):
             ReadOnlyDatabaseTool.from_env()
 

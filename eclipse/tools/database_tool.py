@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import os
 import re
 from typing import Callable
+from eclipse.config import get_env
 
 
 _DANGEROUS_FUNCTIONS = re.compile(
@@ -48,10 +48,10 @@ class ReadOnlyDatabaseTool:
 
     @classmethod
     def from_env(cls, **kwargs: int) -> "ReadOnlyDatabaseTool":
-        dsn = os.environ.get("ECLIPSE_READONLY_DATABASE_URL")
+        dsn = get_env("PLUTO_READONLY_DATABASE_URL")
         if not dsn:
             raise RuntimeError(
-                "Set ECLIPSE_READONLY_DATABASE_URL to a dedicated least-privilege "
+                "Set PLUTO_READONLY_DATABASE_URL to a dedicated least-privilege "
                 "read-only database account"
             )
         try:

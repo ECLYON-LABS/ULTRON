@@ -112,13 +112,16 @@ class StreamingModel:
 
 class InferenceTests(unittest.TestCase):
     def test_local_backend_requires_an_explicit_existing_checkpoint(self):
-        old = os.environ.pop("ECLIPSE_MODEL_PATH", None)
+        old = os.environ.pop("PLUTO_MODEL_PATH", None)
+        legacy = os.environ.pop("ECLIPSE_MODEL_PATH", None)
         try:
-            with self.assertRaisesRegex(CheckpointNotConfigured, "Set ECLIPSE_MODEL_PATH"):
+            with self.assertRaisesRegex(CheckpointNotConfigured, "Set PLUTO_MODEL_PATH"):
                 LocalTransformersBackend()
         finally:
             if old is not None:
-                os.environ["ECLIPSE_MODEL_PATH"] = old
+                os.environ["PLUTO_MODEL_PATH"] = old
+            if legacy is not None:
+                os.environ["ECLIPSE_MODEL_PATH"] = legacy
 
         with tempfile.TemporaryDirectory() as directory:
             checkpoint = Path(directory) / "missing"

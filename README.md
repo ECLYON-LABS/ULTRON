@@ -56,8 +56,8 @@ To generate responses for held-out cases and score them against a checkpoint, fo
 Set a local checkpoint path and an API token, then start the server:
 
 ```bash
-export ECLIPSE_MODEL_PATH=/path/to/checkpoint
-export ECLIPSE_API_TOKEN="$(openssl rand -hex 32)"
+export PLUTO_MODEL_PATH=/path/to/checkpoint
+export PLUTO_API_TOKEN="$(openssl rand -hex 32)"
 python -m eclipse.api.server
 ```
 
@@ -65,7 +65,7 @@ The server listens on `127.0.0.1:8765`. For example:
 
 ```bash
 curl http://127.0.0.1:8765/v1/chat \
-  -H "Authorization: Bearer $ECLIPSE_API_TOKEN" \
+  -H "Authorization: Bearer $PLUTO_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"messages":[{"role":"user","content":"Hello"}]}'
 ```
@@ -74,11 +74,13 @@ curl http://127.0.0.1:8765/v1/chat \
 
 ## Optional capabilities
 
-- **Memory:** Install `requirements-memory.txt`. Set `ECLIPSE_MEMORY_DB_PATH`, `ECLIPSE_EMBEDDING_MODEL_PATH`, and `ECLIPSE_MEMORY_SCOPE_ID` together. Chat and tasks retrieve from that scope; authenticated `POST /v1/memory` writes entries.
-- **Research:** Set `ECLIPSE_ENABLE_WEB_RESEARCH=1`. Research tasks can retrieve URLs explicitly approved in their request.
-- **Python execution:** Configure `ECLIPSE_SANDBOX_URL` and `ECLIPSE_SANDBOX_TOKEN` for an isolated HTTPS sandbox, then set `ECLIPSE_ENABLE_SANDBOX_EXECUTION=1`. Execution requires an explicit task request.
+- **Memory:** Install `requirements-memory.txt`. Set `PLUTO_MEMORY_DB_PATH`, `PLUTO_EMBEDDING_MODEL_PATH`, and `PLUTO_MEMORY_SCOPE_ID` together. Chat and tasks retrieve from that scope; authenticated `POST /v1/memory` writes entries.
+- **Research:** Set `PLUTO_ENABLE_WEB_RESEARCH=1`. Research tasks can retrieve URLs explicitly approved in their request.
+- **Python execution:** Configure `PLUTO_SANDBOX_URL` and `PLUTO_SANDBOX_TOKEN` for an isolated HTTPS sandbox, then set `PLUTO_ENABLE_SANDBOX_EXECUTION=1`. Execution requires an explicit task request.
 
 See [.env.example](.env.example) for configuration names.
+
+Existing installations remain compatible with previous configuration names. If both names are set, the `PLUTO_` setting takes precedence, including an explicitly empty value.
 
 ## Ownership
 

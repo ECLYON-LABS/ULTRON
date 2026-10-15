@@ -9,11 +9,11 @@ only when checkpoint loading or inference is requested.
 from __future__ import annotations
 
 import json
-import os
 from queue import Empty
 import threading
 from pathlib import Path
 from typing import Iterator, Protocol, Sequence
+from eclipse.config import get_env
 
 from .context import Message
 
@@ -44,10 +44,10 @@ class LocalTransformersBackend:
         temperature: float = 0.2,
         device_map: str = "auto",
     ) -> None:
-        configured = model_path if model_path is not None else os.getenv("ECLIPSE_MODEL_PATH")
+        configured = model_path if model_path is not None else get_env("PLUTO_MODEL_PATH")
         if configured is None or not str(configured).strip():
             raise CheckpointNotConfigured(
-                "Set ECLIPSE_MODEL_PATH to a trained local checkpoint directory. "
+                "Set PLUTO_MODEL_PATH to a trained local checkpoint directory. "
                 "No model is bundled and no fallback model will be selected."
             )
         path = Path(configured).expanduser()

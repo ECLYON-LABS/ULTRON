@@ -2,7 +2,6 @@
 
 import hmac
 import json
-import os
 import sys
 import threading
 import time
@@ -10,6 +9,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from eclipse.agents.orchestrator import OrchestrationError
 from eclipse.agents.planner import PlanningError
+from eclipse.config import get_env
 from eclipse.brain.model import CheckpointNotConfigured, LocalTransformersBackend, ModelLoadError
 from eclipse.memory.embeddings import EmbeddingUnavailable, LocalSentenceTransformerEmbedder
 from eclipse.memory.retrieval import MemoryRetriever
@@ -59,7 +59,7 @@ def make_server(
     if host not in ("127.0.0.1", "::1", "localhost"):
         raise ValueError("Bind only to loopback; use a secured reverse proxy for remote access")
     if not token or len(token) < 16:
-        raise ValueError("Set ECLIPSE_API_TOKEN to at least 16 characters")
+        raise ValueError("Set PLUTO_API_TOKEN to at least 16 characters")
     if type(enable_web_research) is not bool or type(enable_sandbox_execution) is not bool:
         raise ValueError("optional tool enable settings must be booleans")
     if web_provider is not None and not enable_web_research:
@@ -73,15 +73,15 @@ def make_server(
         # It never provides local execution as a fallback.
         python_tool = SandboxedPythonTool(SandboxClient())
     if memory_retriever is None and memory_scope_id is None:
-        memory_database = os.getenv("ECLIPSE_MEMORY_DB_PATH")
-        embedding_model = os.getenv("ECLIPSE_EMBEDDING_MODEL_PATH")
-        configured_scope = os.getenv("ECLIPSE_MEMORY_SCOPE_ID")
+        memory_database = get_env("PLUTO_MEMORY_DB_PATH")
+        embedding_model = get_env("PLUTO_EMBEDDING_MODEL_PATH")
+        configured_scope = get_env("PLUTO_MEMORY_SCOPE_ID")
         configured = (memory_database, embedding_model, configured_scope)
         if any(configured):
             if not all(configured):
                 raise ValueError(
-                    "Configure ECLIPSE_MEMORY_DB_PATH, ECLIPSE_EMBEDDING_MODEL_PATH, "
-                    "and ECLIPSE_MEMORY_SCOPE_ID together"
+                    "Configure PLUTO_MEMORY_DB_PATH, PLUTO_EMBEDDING_MODEL_PATH, "
+                    "and PLUTO_MEMORY_SCOPE_ID together"
                 )
             memory_retriever = MemoryRetriever(
                 LocalSentenceTransformerEmbedder(embedding_model),
@@ -268,11 +268,11 @@ def main() -> None:
         backend = LocalTransformersBackend()
     except CheckpointNotConfigured as exc:
         raise SystemExit(str(exc)) from exc
-    token = os.getenv("ECLIPSE_API_TOKEN", "")
-    host = os.getenv("ECLIPSE_HOST", "127.0.0.1")
-    port = int(os.getenv("ECLIPSE_PORT", "8765"))
+    token = get_env("PLUTO_API_TOKEN", "")
+    host = get_env("PLUTO_HOST", "127.0.0.1")
+    port = int(get_env("PLUTO_PORT", "8765"))
     def enabled(name: str) -> bool:
-        value = os.getenv(name, "0")
+        value = get_env(name, "0")
         if value not in {"0", "1"}:
             raise ValueError(f"{name} must be set to 0 or 1")
         return value == "1"
@@ -282,8 +282,8 @@ def main() -> None:
         port,
         backend,
         token,
-        enable_web_research=enabled("ECLIPSE_ENABLE_WEB_RESEARCH"),
-        enable_sandbox_execution=enabled("ECLIPSE_ENABLE_SANDBOX_EXECUTION"),
+        enable_web_research=enabled("PLUTO_ENABLE_WEB_RESEARCH"),
+        enable_sandbox_execution=enabled("PLUTO_ENABLE_SANDBOX_EXECUTION"),
     )
     print(f"Pluto API configured at http://{host}:{server.server_port}; checkpoint loads on first request")
     try:
