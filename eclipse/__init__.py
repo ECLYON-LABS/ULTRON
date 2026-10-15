@@ -1,1 +1,1 @@
-"""Standalone ECLIPSE agent components."""
+"""Standalone Pluto agent components."""

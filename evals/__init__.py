@@ -1,4 +1,4 @@
-"""Deterministic, offline evaluation for externally generated ECLIPSE responses.
+"""Deterministic, offline evaluation for externally generated Pluto responses.
 
 The framework never calls a model and never executes generated code. See
 ``python -m evals --help`` for the JSONL runner.

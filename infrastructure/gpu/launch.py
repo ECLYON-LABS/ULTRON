@@ -1,4 +1,4 @@
-"""Validate a real local ECLIPSE checkpoint and GPU before starting inference."""
+"""Validate a real local Pluto checkpoint and GPU before starting inference."""
 
 import os
 import subprocess

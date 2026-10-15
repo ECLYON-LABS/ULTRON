@@ -101,7 +101,7 @@ def make_server(
     metrics_lock = threading.Lock()
 
     class Handler(BaseHTTPRequestHandler):
-        server_version = "EclipseAI/0.1"
+        server_version = "Pluto/0.1"
 
         def log_message(self, fmt: str, *args: object) -> None:
             # The HTTP request line may contain private prompt text.
@@ -255,7 +255,7 @@ def make_server(
                 self.reply(422, {"error": str(exc)})
             except Exception:
                 # Never send exception details, local file paths, or model input to a client.
-                print("ECLIPSE API request failed unexpectedly", file=sys.stderr)
+                print("Pluto API request failed unexpectedly", file=sys.stderr)
                 self.reply(500, {"error": "Internal request failure"})
 
     server = ThreadingHTTPServer((host, port), Handler)
@@ -285,7 +285,7 @@ def main() -> None:
         enable_web_research=enabled("ECLIPSE_ENABLE_WEB_RESEARCH"),
         enable_sandbox_execution=enabled("ECLIPSE_ENABLE_SANDBOX_EXECUTION"),
     )
-    print(f"ECLIPSE API configured at http://{host}:{server.server_port}; checkpoint loads on first request")
+    print(f"Pluto API configured at http://{host}:{server.server_port}; checkpoint loads on first request")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

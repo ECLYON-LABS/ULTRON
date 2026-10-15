@@ -13,7 +13,7 @@ def infer(
     prompt: str,
     *,
     context: ConversationContext | None = None,
-    system_prompt: str = "You are ECLIPSE AI. Be accurate and state uncertainty clearly.",
+    system_prompt: str = "You are Pluto. Be accurate and state uncertainty clearly.",
 ) -> str:
     """Run one turn and commit it to context only after successful inference."""
     if not isinstance(prompt, str) or not prompt.strip():

@@ -53,7 +53,7 @@ class LocalTransformersBackend:
         path = Path(configured).expanduser()
         if not path.is_dir():
             raise CheckpointNotConfigured(
-                f"ECLIPSE checkpoint directory does not exist: {path}. "
+                f"Pluto checkpoint directory does not exist: {path}. "
                 "Train or provide a checkpoint before starting inference."
             )
         if max_new_tokens < 1 or max_new_tokens > 8192:

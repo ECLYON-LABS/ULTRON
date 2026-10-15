@@ -1,4 +1,4 @@
-"""Generate bounded candidate JSONL from a verified local ECLIPSE checkpoint."""
+"""Generate bounded candidate JSONL from a verified local Pluto checkpoint."""
 
 from __future__ import annotations
 
@@ -92,7 +92,7 @@ def generate_candidates(
         except ImportError as exc:
             raise EvaluationError(
                 "Cannot import LocalTransformersBackend; run from examples/eclipse-ai-brain "
-                "with the ECLIPSE package available"
+                "with the Pluto package available"
             ) from exc
         try:
             backend = LocalTransformersBackend(
@@ -199,7 +199,7 @@ def generate_candidates(
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m evals.generate",
-        description="Generate candidate responses using a verified local ECLIPSE checkpoint.",
+        description="Generate candidate responses using a verified local Pluto checkpoint.",
     )
     parser.add_argument("--cases", required=True, help="Held-out case definitions in JSONL format")
     parser.add_argument("--checkpoint", required=True, help="Verified local checkpoint directory or registry ID")

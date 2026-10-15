@@ -126,13 +126,13 @@ class InferenceTests(unittest.TestCase):
                 LocalTransformersBackend(checkpoint)
 
     def test_context_is_committed_only_after_successful_inference(self):
-        context = ConversationContext("ECLIPSE test assistant", max_turns=2)
+        context = ConversationContext("Pluto test assistant", max_turns=2)
         backend = ScriptedBackend(["answer", RuntimeError("offline")])
         self.assertEqual(infer(backend, "first", context=context), "answer")
         self.assertEqual(
             [(item.role, item.content) for item in context.messages],
             [
-                ("system", "ECLIPSE test assistant"),
+                ("system", "Pluto test assistant"),
                 ("user", "first"),
                 ("assistant", "answer"),
             ],

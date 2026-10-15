@@ -1,4 +1,4 @@
-"""Auditable data and fine-tuning pipelines for ECLIPSE checkpoints.
+"""Auditable data and fine-tuning pipelines for Pluto checkpoints.
 
 The training extras are optional; importing this package never imports a GPU
 framework or downloads a model.

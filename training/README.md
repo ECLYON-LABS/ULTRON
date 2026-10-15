@@ -1,4 +1,4 @@
-# Train an actual ECLIPSE checkpoint
+# Train an actual Pluto checkpoint
 
 These scripts require **real, licensed data and an external CUDA machine**. No
 data, preference labels, or model weights are included. A successful dry run

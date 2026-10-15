@@ -1,4 +1,4 @@
-"""Composable, bounded ECLIPSE agents."""
+"""Composable, bounded Pluto agents."""
 
 from .coding_agent import CodingAgent
 from .orchestrator import EclipseOrchestrator, OrchestrationError, OrchestrationResult

@@ -1,12 +1,14 @@
-<p align="center"><img src="assets/eclipse-logo.png" width="520" alt="ECLIPSE AI logo" /></p>
+<p align="center"><img src="assets/pluto-logo.webp" width="520" alt="Pluto logo" /></p>
 
-# ECLIPSE AI
+# Pluto
+
+**CA:** `6jijW4Ne924kqj8XYLKXFrhpeHy5y2qxoKgGzJHQpump`
 
 **Auditable agent architecture, memory, training, evaluation, and local inference.**
 
 **Made by ECLYON LABS.**
 
-ECLIPSE AI Brain is ECLIPSE AI's Python stack for training, evaluating, and serving local model checkpoints. The workflow is dataset validation → SFT → DPO → checkpoint → evaluation → inference.
+Pluto Brain is Pluto's Python stack for training, evaluating, and serving local model checkpoints. The workflow is dataset validation → SFT → DPO → checkpoint → evaluation → inference.
 
 ## Development log
 

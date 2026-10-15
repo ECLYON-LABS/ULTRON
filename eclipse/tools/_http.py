@@ -69,7 +69,7 @@ def request_public(
     if any(name.lower() in forbidden for name in request_headers):
         raise ValueError("caller cannot override transport security headers")
     request_headers.setdefault("Accept-Encoding", "identity")
-    request_headers.setdefault("User-Agent", "ECLIPSE-AI-Brain/1.0")
+    request_headers.setdefault("User-Agent", "Pluto-Brain/1.0")
     request_headers["Connection"] = "close"
     path = parsed.path or "/"
     if parsed.query:

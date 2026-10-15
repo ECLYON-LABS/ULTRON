@@ -1,4 +1,4 @@
-"""Plan and execute a bounded task with registered ECLIPSE agents."""
+"""Plan and execute a bounded task with registered Pluto agents."""
 
 from eclipse.api.chat import ChatService
 from eclipse.brain.model import LocalTransformersBackend

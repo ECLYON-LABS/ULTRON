@@ -72,14 +72,14 @@ class PersistentMemoryTests(unittest.TestCase):
     def test_retrieval_uses_injected_embedder_without_fake_production_fallback(self):
         class TestEmbedder:
             def embed(self, text):
-                return [1.0, 0.0] if "ECLIPSE" in text else [0.0, 1.0]
+                return [1.0, 0.0] if "Pluto" in text else [0.0, 1.0]
 
         with tempfile.TemporaryDirectory() as directory:
             store = SQLiteVectorStore(Path(directory) / "vectors.sqlite3")
             retrieval = MemoryRetriever(TestEmbedder(), store)
-            retrieval.remember("alice", "ECLIPSE model", {"source": "test fixture"})
+            retrieval.remember("alice", "Pluto model", {"source": "test fixture"})
             self.assertEqual(
-                retrieval.retrieve("alice", "ECLIPSE query")[0]["content"], "ECLIPSE model"
+                retrieval.retrieve("alice", "Pluto query")[0]["content"], "Pluto model"
             )
 
     def test_missing_embedding_model_fails_explicitly(self):
