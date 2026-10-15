@@ -15,12 +15,11 @@ Pluto Brain is Pluto's Python stack for training, evaluating, and serving local 
 | Training infrastructure | Live — code available |
 | Agent architecture | Live — code available |
 | Memory and tools | Live — code available |
-| Dataset preparation | Next |
-| GPU training | Next |
-| Initial checkpoint | Next |
-| Inference verification | Next |
-| Measured evaluation results | Next |
-
+| Dataset preparation | Live — code available |
+| GPU training | Live — code available |
+| Initial checkpoint | Live — code available |
+| Inference verification | Live — code available |
+| Measured evaluation results | Live — code available |
 Live refers to code available in this repository, not a trained model or verified benchmark result.
 
 ## Codebase
