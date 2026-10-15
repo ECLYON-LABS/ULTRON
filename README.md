@@ -6,6 +6,8 @@
 
 **Auditable agent architecture, memory, training, evaluation, and local inference.**
 
+**Made by ECLYON-LABS Team**
+
 Pluto Brain is Pluto's Python stack for training, evaluating, and serving local model checkpoints. The workflow is dataset validation → SFT → DPO → checkpoint → evaluation → inference.
 
 ## Development log
