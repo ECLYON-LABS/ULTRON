@@ -44,16 +44,16 @@ class LocalTransformersBackend:
         temperature: float = 0.2,
         device_map: str = "auto",
     ) -> None:
-        configured = model_path if model_path is not None else get_env("PLUTO_MODEL_PATH")
+        configured = model_path if model_path is not None else get_env("ULTRON_MODEL_PATH")
         if configured is None or not str(configured).strip():
             raise CheckpointNotConfigured(
-                "Set PLUTO_MODEL_PATH to a trained local checkpoint directory. "
+                "Set ULTRON_MODEL_PATH to a trained local checkpoint directory. "
                 "No model is bundled and no fallback model will be selected."
             )
         path = Path(configured).expanduser()
         if not path.is_dir():
             raise CheckpointNotConfigured(
-                f"Pluto checkpoint directory does not exist: {path}. "
+                f"ULTRON checkpoint directory does not exist: {path}. "
                 "Train or provide a checkpoint before starting inference."
             )
         if max_new_tokens < 1 or max_new_tokens > 8192:

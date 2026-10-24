@@ -311,7 +311,7 @@ class ReadOnlyDatabaseTests(unittest.TestCase):
 
     def test_from_env_fails_clearly_without_database_credentials(self):
         with patch.dict(os.environ, {}, clear=True), self.assertRaisesRegex(
-            RuntimeError, "PLUTO_READONLY_DATABASE_URL"
+            RuntimeError, "ULTRON_READONLY_DATABASE_URL"
         ):
             ReadOnlyDatabaseTool.from_env()
 

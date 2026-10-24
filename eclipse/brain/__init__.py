@@ -1,4 +1,4 @@
-"""Local checkpoint inference and routing for the Pluto agent core."""
+"""Local checkpoint inference and routing for the ULTRON agent core."""
 
 from .context import ConversationContext, Message
 from .model import CheckpointNotConfigured, LocalTransformersBackend, ModelBackend

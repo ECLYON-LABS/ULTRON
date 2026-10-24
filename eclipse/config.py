@@ -1,16 +1,20 @@
-"""Pluto settings with compatibility for existing installation names."""
+"""ULTRON settings with compatibility for existing installation names."""
 
 import os
 
 
 def get_env(name: str, default: str | None = None) -> str | None:
-    """Prefer PLUTO_*; fall back only when the new name is not set.
+    """Prefer ULTRON_*, then PLUTO_*, then ECLIPSE_*.
 
     An explicitly empty value must not restore a legacy credential or flag.
     """
-    if not name.startswith("PLUTO_"):
-        raise ValueError("Use a PLUTO_ configuration name")
-    if name in os.environ:
-        return os.environ[name]
-    legacy = "ECLIPSE_" + name[len("PLUTO_"):]
-    return os.environ.get(legacy, default)
+    prefixes = ("ULTRON_", "PLUTO_", "ECLIPSE_")
+    prefix = next((item for item in prefixes if name.startswith(item)), None)
+    if prefix is None:
+        raise ValueError("Use an ULTRON_ configuration name")
+    suffix = name[len(prefix):]
+    for item in prefixes:
+        candidate = item + suffix
+        if candidate in os.environ:
+            return os.environ[candidate]
+    return default

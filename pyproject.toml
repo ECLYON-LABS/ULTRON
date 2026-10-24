@@ -3,13 +3,14 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "eclipse-ai-brain"
+name = "ultron-ai-brain"
 version = "0.3.0"
-description = "Independent checkpoint training, evaluation and agent runtime"
+description = "ULTRON — checkpoint training, evaluation and AI agent runtime"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
+ultron-api = "eclipse.api.server:main"
 eclipse-api = "eclipse.api.server:main"
 
 [tool.setuptools.packages.find]

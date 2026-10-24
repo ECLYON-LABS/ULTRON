@@ -24,14 +24,14 @@ class SandboxClient:
         timeout_seconds: float = 10,
         max_output_bytes: int = 64_000,
     ) -> None:
-        self.endpoint = endpoint or get_env("PLUTO_SANDBOX_URL", "")
-        self.token = token or get_env("PLUTO_SANDBOX_TOKEN", "")
+        self.endpoint = endpoint or get_env("ULTRON_SANDBOX_URL", "")
+        self.token = token or get_env("ULTRON_SANDBOX_TOKEN", "")
         self.timeout_seconds = timeout_seconds
         self.max_output_bytes = max_output_bytes
         if not self.endpoint or not self.token:
             raise SandboxUnavailable(
-                "Code execution is disabled: configure PLUTO_SANDBOX_URL and "
-                "PLUTO_SANDBOX_TOKEN for an isolated external sandbox"
+                "Code execution is disabled: configure ULTRON_SANDBOX_URL and "
+                "ULTRON_SANDBOX_TOKEN for an isolated external sandbox"
             )
         parsed = urlsplit(self.endpoint)
         if (

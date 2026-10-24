@@ -8,7 +8,7 @@ if __name__ == "__main__":
     service = ChatService(LocalTransformersBackend())
     result = service.chat([
         {"role": "user", "content": (
-            "Draft a small accessible HTML/CSS landing page for Pluto. "
+            "Draft a small accessible HTML/CSS landing page for ULTRON. "
             "Explain which parts would still need human review."
         )}
     ])

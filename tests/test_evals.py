@@ -57,10 +57,10 @@ class EvaluationTests(unittest.TestCase):
             "prompt": "Look up a page",
             "expect": {
                 "allowed_tools": ["search"],
-                "expected_calls": [{"name": "search", "arguments": {"query": "Pluto"}}],
+                "expected_calls": [{"name": "search", "arguments": {"query": "ULTRON"}}],
             },
         }
-        good = {"tool_calls": [{"name": "search", "arguments": {"query": "Pluto"}}]}
+        good = {"tool_calls": [{"name": "search", "arguments": {"query": "ULTRON"}}]}
         bad = {"tool_calls": [{"name": "shell", "arguments": {"command": "pwd"}}]}
         self.assertTrue(evaluate_case(case, good).passed)
         self.assertFalse(evaluate_case(case, bad).passed)

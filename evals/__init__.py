@@ -1,4 +1,4 @@
-"""Deterministic, offline evaluation for externally generated Pluto responses.
+"""Deterministic, offline evaluation for externally generated ULTRON responses.
 
 The framework never calls a model and never executes generated code. See
 ``python -m evals --help`` for the JSONL runner.

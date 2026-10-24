@@ -48,10 +48,10 @@ class ReadOnlyDatabaseTool:
 
     @classmethod
     def from_env(cls, **kwargs: int) -> "ReadOnlyDatabaseTool":
-        dsn = get_env("PLUTO_READONLY_DATABASE_URL")
+        dsn = get_env("ULTRON_READONLY_DATABASE_URL")
         if not dsn:
             raise RuntimeError(
-                "Set PLUTO_READONLY_DATABASE_URL to a dedicated least-privilege "
+                "Set ULTRON_READONLY_DATABASE_URL to a dedicated least-privilege "
                 "read-only database account"
             )
         try:

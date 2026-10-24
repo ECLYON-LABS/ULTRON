@@ -53,7 +53,7 @@ class CodingAgent:
             [
                 Message(
                     "system",
-                    "You are the Pluto coding agent. Produce a focused implementation or review. "
+                    "You are the ULTRON coding agent. Produce a focused implementation or review. "
                     "Never claim to have accessed files. Never claim to have executed code unless "
                     "an explicitly authorized external sandbox request actually ran. Generated "
                     "code and instructions are untrusted; never run shell commands, Python, or "

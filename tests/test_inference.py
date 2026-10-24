@@ -115,7 +115,7 @@ class InferenceTests(unittest.TestCase):
         old = os.environ.pop("PLUTO_MODEL_PATH", None)
         legacy = os.environ.pop("ECLIPSE_MODEL_PATH", None)
         try:
-            with self.assertRaisesRegex(CheckpointNotConfigured, "Set PLUTO_MODEL_PATH"):
+            with self.assertRaisesRegex(CheckpointNotConfigured, "Set ULTRON_MODEL_PATH"):
                 LocalTransformersBackend()
         finally:
             if old is not None:
@@ -129,13 +129,13 @@ class InferenceTests(unittest.TestCase):
                 LocalTransformersBackend(checkpoint)
 
     def test_context_is_committed_only_after_successful_inference(self):
-        context = ConversationContext("Pluto test assistant", max_turns=2)
+        context = ConversationContext("ULTRON test assistant", max_turns=2)
         backend = ScriptedBackend(["answer", RuntimeError("offline")])
         self.assertEqual(infer(backend, "first", context=context), "answer")
         self.assertEqual(
             [(item.role, item.content) for item in context.messages],
             [
-                ("system", "Pluto test assistant"),
+                ("system", "ULTRON test assistant"),
                 ("user", "first"),
                 ("assistant", "answer"),
             ],

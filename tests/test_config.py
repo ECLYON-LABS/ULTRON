@@ -19,9 +19,9 @@ SETTINGS = (
 
 
 class ConfigTests(unittest.TestCase):
-    def test_each_setting_supports_pluto_and_legacy_names(self):
+    def test_each_setting_supports_ultron_and_legacy_names(self):
         for suffix in SETTINGS:
-            for prefix in ("PLUTO_", "ECLIPSE_"):
+            for prefix in ("ULTRON_", "PLUTO_", "ECLIPSE_"):
                 with self.subTest(suffix=suffix, prefix=prefix):
                     with patch.dict(os.environ, {prefix + suffix: "test-value"}, clear=True):
                         self.assertEqual(get_env("PLUTO_" + suffix), "test-value")
@@ -36,6 +36,27 @@ class ConfigTests(unittest.TestCase):
                     }, clear=True):
                         self.assertEqual(get_env("PLUTO_" + suffix, "default"), value)
 
+    def test_ultron_wins_even_when_empty_for_all_supported_lookup_names(self):
+        for suffix in SETTINGS:
+            for value in ("ultron-value", "", "0"):
+                for lookup_prefix in ("ULTRON_", "PLUTO_", "ECLIPSE_"):
+                    with self.subTest(suffix=suffix, value=value, lookup=lookup_prefix):
+                        with patch.dict(os.environ, {
+                            "ULTRON_" + suffix: value,
+                            "PLUTO_" + suffix: "pluto-value",
+                            "ECLIPSE_" + suffix: "legacy-value",
+                        }, clear=True):
+                            self.assertEqual(get_env(lookup_prefix + suffix, "default"), value)
+
+    def test_empty_ultron_token_does_not_restore_old_credentials(self):
+        with patch.dict(os.environ, {
+            "ULTRON_API_TOKEN": "",
+            "PLUTO_API_TOKEN": "old-test-only-token-at-least-16",
+            "ECLIPSE_API_TOKEN": "legacy-test-only-token-at-least-16",
+        }, clear=True):
+            with self.assertRaisesRegex(ValueError, "ULTRON_API_TOKEN"):
+                make_server("127.0.0.1", 0, Mock(), get_env("ULTRON_API_TOKEN"))
+
     def test_unconfigured_defaults_and_canonical_name_requirement(self):
         with patch.dict(os.environ, {}, clear=True):
             self.assertIsNone(get_env("PLUTO_API_TOKEN"))
@@ -43,8 +64,8 @@ class ConfigTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 get_env("UNRELATED_SETTING")
 
-    def test_api_startup_reads_both_configuration_formats(self):
-        for prefix in ("PLUTO_", "ECLIPSE_"):
+    def test_api_startup_reads_all_configuration_formats(self):
+        for prefix in ("ULTRON_", "PLUTO_", "ECLIPSE_"):
             with self.subTest(prefix=prefix):
                 settings = {prefix + "API_TOKEN": "test-only-token-at-least-16",
                             prefix + "HOST": "127.0.0.1", prefix + "PORT": "9876",
@@ -67,7 +88,7 @@ class ConfigTests(unittest.TestCase):
         with patch.dict(os.environ, {
             "PLUTO_API_TOKEN": "", "ECLIPSE_API_TOKEN": "legacy-test-token-at-least-16",
         }, clear=True):
-            with self.assertRaisesRegex(ValueError, "PLUTO_API_TOKEN"):
+            with self.assertRaisesRegex(ValueError, "ULTRON_API_TOKEN"):
                 make_server("127.0.0.1", 0, Mock(), get_env("PLUTO_API_TOKEN"))
 
     def test_backend_uses_new_checkpoint_path_before_legacy_path(self):
@@ -80,8 +101,8 @@ class ConfigTests(unittest.TestCase):
                 with self.assertRaisesRegex(CheckpointNotConfigured, "pluto-missing"):
                     LocalTransformersBackend()
 
-    def test_sandbox_reads_both_configuration_formats_without_a_request(self):
-        for prefix in ("PLUTO_", "ECLIPSE_"):
+    def test_sandbox_reads_all_configuration_formats_without_a_request(self):
+        for prefix in ("ULTRON_", "PLUTO_", "ECLIPSE_"):
             with self.subTest(prefix=prefix):
                 with patch.dict(os.environ, {
                     prefix + "SANDBOX_URL": "https://sandbox.example",

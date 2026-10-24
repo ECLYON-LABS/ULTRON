@@ -59,7 +59,7 @@ def make_server(
     if host not in ("127.0.0.1", "::1", "localhost"):
         raise ValueError("Bind only to loopback; use a secured reverse proxy for remote access")
     if not token or len(token) < 16:
-        raise ValueError("Set PLUTO_API_TOKEN to at least 16 characters")
+        raise ValueError("Set ULTRON_API_TOKEN to at least 16 characters")
     if type(enable_web_research) is not bool or type(enable_sandbox_execution) is not bool:
         raise ValueError("optional tool enable settings must be booleans")
     if web_provider is not None and not enable_web_research:
@@ -73,15 +73,15 @@ def make_server(
         # It never provides local execution as a fallback.
         python_tool = SandboxedPythonTool(SandboxClient())
     if memory_retriever is None and memory_scope_id is None:
-        memory_database = get_env("PLUTO_MEMORY_DB_PATH")
-        embedding_model = get_env("PLUTO_EMBEDDING_MODEL_PATH")
-        configured_scope = get_env("PLUTO_MEMORY_SCOPE_ID")
+        memory_database = get_env("ULTRON_MEMORY_DB_PATH")
+        embedding_model = get_env("ULTRON_EMBEDDING_MODEL_PATH")
+        configured_scope = get_env("ULTRON_MEMORY_SCOPE_ID")
         configured = (memory_database, embedding_model, configured_scope)
         if any(configured):
             if not all(configured):
                 raise ValueError(
-                    "Configure PLUTO_MEMORY_DB_PATH, PLUTO_EMBEDDING_MODEL_PATH, "
-                    "and PLUTO_MEMORY_SCOPE_ID together"
+                    "Configure ULTRON_MEMORY_DB_PATH, ULTRON_EMBEDDING_MODEL_PATH, "
+                    "and ULTRON_MEMORY_SCOPE_ID together"
                 )
             memory_retriever = MemoryRetriever(
                 LocalSentenceTransformerEmbedder(embedding_model),
@@ -101,7 +101,7 @@ def make_server(
     metrics_lock = threading.Lock()
 
     class Handler(BaseHTTPRequestHandler):
-        server_version = "Pluto/0.1"
+        server_version = "ULTRON/0.1"
 
         def log_message(self, fmt: str, *args: object) -> None:
             # The HTTP request line may contain private prompt text.
@@ -255,7 +255,7 @@ def make_server(
                 self.reply(422, {"error": str(exc)})
             except Exception:
                 # Never send exception details, local file paths, or model input to a client.
-                print("Pluto API request failed unexpectedly", file=sys.stderr)
+                print("ULTRON API request failed unexpectedly", file=sys.stderr)
                 self.reply(500, {"error": "Internal request failure"})
 
     server = ThreadingHTTPServer((host, port), Handler)
@@ -268,9 +268,9 @@ def main() -> None:
         backend = LocalTransformersBackend()
     except CheckpointNotConfigured as exc:
         raise SystemExit(str(exc)) from exc
-    token = get_env("PLUTO_API_TOKEN", "")
-    host = get_env("PLUTO_HOST", "127.0.0.1")
-    port = int(get_env("PLUTO_PORT", "8765"))
+    token = get_env("ULTRON_API_TOKEN", "")
+    host = get_env("ULTRON_HOST", "127.0.0.1")
+    port = int(get_env("ULTRON_PORT", "8765"))
     def enabled(name: str) -> bool:
         value = get_env(name, "0")
         if value not in {"0", "1"}:
@@ -282,10 +282,10 @@ def main() -> None:
         port,
         backend,
         token,
-        enable_web_research=enabled("PLUTO_ENABLE_WEB_RESEARCH"),
-        enable_sandbox_execution=enabled("PLUTO_ENABLE_SANDBOX_EXECUTION"),
+        enable_web_research=enabled("ULTRON_ENABLE_WEB_RESEARCH"),
+        enable_sandbox_execution=enabled("ULTRON_ENABLE_SANDBOX_EXECUTION"),
     )
-    print(f"Pluto API configured at http://{host}:{server.server_port}; checkpoint loads on first request")
+    print(f"ULTRON API configured at http://{host}:{server.server_port}; checkpoint loads on first request")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

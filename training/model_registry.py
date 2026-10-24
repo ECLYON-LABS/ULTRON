@@ -91,7 +91,7 @@ def read_checkpoint_manifest(directory: str | Path, *, verify_files: bool = True
     if not root.is_dir() or not manifest_path.is_file():
         raise DatasetError(
             f"No completed training manifest at {manifest_path}; "
-            "base/pretrained model folders are not registered Pluto checkpoints"
+            "base/pretrained model folders are not registered ULTRON checkpoints"
         )
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
